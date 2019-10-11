@@ -126,8 +126,13 @@ class MantaBase(IlluminaToolBase, ABC):
             ),
             ToolOutput(
                 "somaticSV",
-                VcfTabix(),
+                VcfTabix(optional=False),
                 glob=InputSelector("runDir") + "/results/variants/somaticSV.vcf.gz",
+            ),
+            ToolOutput(
+                "tumorSV",
+                VcfTabix(optional=False),
+                glob=InputSelector("runDir") + "/results/variants/tumor SV.vcf.gz",
             ),
         ]
 
