@@ -71,7 +71,7 @@ class FreeBayesSomaticWorkflow(BioinformaticsWorkflow):
 
         self.step(
             "callVariants",
-            FreeBayes_1_2(
+            FreeBayes_1_3(
                 bams=self.bams,
                 reference=self.reference,
                 pooledDiscreteFlag=True,
