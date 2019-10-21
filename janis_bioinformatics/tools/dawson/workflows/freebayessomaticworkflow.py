@@ -7,7 +7,7 @@ from janis_bioinformatics.data_types import FastaWithDict, BamBai, BedTabix, Vcf
 from janis_core import Array, Boolean, String
 
 from janis_bioinformatics.tools.dawson import CallSomaticFreeBayes_0_1
-from janis_bioinformatics.tools.freebayes import FreeBayes_1_2
+from janis_bioinformatics.tools.freebayes import FreeBayes_1_3
 
 from janis_bioinformatics.tools.htslib import BGZipLatest, TabixLatest
 from janis_bioinformatics.tools.bcftools import (
@@ -64,7 +64,7 @@ class FreeBayesSomaticWorkflow(BioinformaticsWorkflow):
         self.input("bams", Array(BamBai))
 
         self.input("reference", FastaWithDict)
-        self.input("callRegions", Array(String, optional=True))
+        self.input("callRegions", Array(String, optional=True), default=["21", "22"])
 
         self.input("normalSample", String)
         self.input("sampleNames", Array(String, optional=True))
@@ -82,6 +82,7 @@ class FreeBayesSomaticWorkflow(BioinformaticsWorkflow):
                 noABPriorsFlag=True,
                 maxNumOfAlleles=5,
                 noPartObsFlag=True,
+                skipCov=300,
                 region=self.callRegions,
             ),
             scatter="region",
