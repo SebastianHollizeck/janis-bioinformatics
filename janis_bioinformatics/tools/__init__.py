@@ -8,6 +8,7 @@ from janis_bioinformatics.tools import (
     bwa,
     common,
     cutadapt,
+    dawson,
     freebayes,
     gatk4,
     htslib,
@@ -18,5 +19,5 @@ from janis_bioinformatics.tools import (
     ucsf,
     validation,
     variantcallers,
-    dawson,
+    vcflib,
 )
