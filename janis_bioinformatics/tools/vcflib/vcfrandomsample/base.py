@@ -11,11 +11,11 @@ from janis_core import (
     ToolOutput,
     InputSelector,
     Float,
+    ToolMetadata,
 )
-from janis_bioinformatics.data_types import FastaWithDict, CompressedVcf
-from janis_bioinformatics.data_types import Vcf
+from janis_bioinformatics.data_types import FastaWithDict, CompressedVcf, Vcf
+
 from janis_bioinformatics.tools.vcflib.vcflibtoolbase import VcfToolsToolBase
-from janis_core import ToolMetadata
 
 
 class VcfRandomSampleBase(VcfToolsToolBase, ABC):
