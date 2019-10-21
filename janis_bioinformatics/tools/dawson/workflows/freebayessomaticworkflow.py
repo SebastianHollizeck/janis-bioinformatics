@@ -17,7 +17,7 @@ from janis_bioinformatics.tools.bcftools import (
 )
 
 from janis_bioinformatics.tools.vcflib import (
-    VcfSplitAllelicPrimitivesLatest,
+    VcfAllelicPrimitivesLatest,
     VcfFixUpLatest,
     VcfUniqAllelesLatest,
     VcfUniqLatest,
@@ -111,7 +111,7 @@ class FreeBayesSomaticWorkflow(BioinformaticsWorkflow):
 
         self.step(
             "split_allelic_primitves",
-            VcfSplitAllelicPrimitivesLatest(
+            VcfAllelicPrimitivesLatest(
                 vcf=self.normalization_first, tagParsed="DECOMPOSED"
             ),
         )
