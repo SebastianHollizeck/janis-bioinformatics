@@ -10,6 +10,7 @@ from janis_core import (
     Int,
     ToolOutput,
     InputSelector,
+    Float,
 )
 from janis_bioinformatics.data_types import FastaWithDict, CompressedVcf
 from janis_bioinformatics.data_types import Vcf
