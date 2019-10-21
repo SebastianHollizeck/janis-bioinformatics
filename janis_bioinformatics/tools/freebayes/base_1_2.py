@@ -202,7 +202,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="ploidy",
                 prefix="-p",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=2,
                 doc="Sets the default ploidy for the analysis to N. default: 2",
             ),
@@ -258,7 +258,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="maxNumOfAlleles",
                 prefix="-n",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=0,
                 doc="Evaluate only the best N SNP alleles, ranked by sum of supporting quality scores. (Set to 0 to use all; default: all)",
             ),
@@ -271,21 +271,21 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="haplotypeLength",
                 prefix="--haplotype-length",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=3,
                 doc="Allow haplotype calls with contiguous embedded matches of up to this length. Set N=-1 to disable clumping. (default: 3)",
             ),
             ToolInput(
                 tag="minRepSize",
                 prefix="--min-repeat-size",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=5,
                 doc="When assembling observations across repeats, require the total repeat length at least this many bp. (default: 5)",
             ),
             ToolInput(
                 tag="minRepEntropy",
                 prefix="--min-repeat-entropy",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=1,
                 doc="To detect interrupted repeats, build across sequence until it has  entropy > N bits per bp. Set to 0 to turn off. (default: 1)",
             ),
@@ -311,7 +311,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="minMappingQual",
                 prefix="-m",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=1,
                 doc=" Exclude alignments from analysis if they have a mapping quality less than Q. default: 1",
             ),
@@ -339,7 +339,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="minSupBQthres",
                 prefix="-Q",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=10,
                 doc=" -Q --mismatch-base-quality-threshold Q Count mismatches toward --read-mismatch-limit if the base quality of the mismatch is >= Q. default: 10",
             ),
@@ -384,7 +384,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="minAltCount",
                 prefix="-C",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=2,
                 doc=" -C --min-alternate-count N Require at least this count of observations supporting an alternate allele within a single individual in order to evaluate the position. default: 2",
             ),
@@ -398,7 +398,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="minAltTotal",
                 prefix="-G",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=1,
                 doc=" -G --min-alternate-total N Require at least this count of observations supporting an alternate allele within the total population in order to use the allele in analysis. default: 1",
             ),
@@ -479,14 +479,14 @@ class FreeBayesBase_1_2(BioinformaticsTool):
             ToolInput(
                 tag="genotypingMaxIter",
                 prefix="-B",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=1000,
                 doc=" -B --genotyping-max-iterations N Iterate no more than N times during genotyping step. default: 1000.",
             ),
             ToolInput(
                 tag="genotypingMaxBDepth",
                 prefix="--genotyping-max-banddepth",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=6,
                 doc=" --genotyping-max-banddepth N Integrate no deeper than the Nth best genotype by likelihood when genotyping. default: 6.",
             ),
@@ -537,14 +537,7 @@ class FreeBayesBase_1_2(BioinformaticsTool):
         ]
 
     def outputs(self):
-        return [
-            ToolOutput(
-                "out",
-                Vcf,
-                glob=InputSelector("outputFilename"),
-                doc="To determine type",
-            )
-        ]
+        return [ToolOutput("out", Vcf, glob=InputSelector("outputFilename"))]
 
     def cpus(self, hints: Dict[str, Any]):
         val = get_value_for_hints_and_ordered_resource_tuple(hints, CORES_TUPLE)
