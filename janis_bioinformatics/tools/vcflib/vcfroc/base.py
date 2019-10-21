@@ -10,6 +10,7 @@ from janis_core import (
     Int,
     ToolOutput,
     InputSelector,
+    Stdout,
 )
 from janis_bioinformatics.data_types import FastaWithDict, CompressedVcf
 from janis_bioinformatics.data_types import Vcf
@@ -51,7 +52,7 @@ class VcfRocBase(VcfToolsToolBase, ABC):
         ]
 
     def outputs(self):
-        return [ToolOutput("out", Stdout(Vcf), doc="VCF output")]
+        return [ToolOutput("out", Stdout(), doc="VCF output")]
 
     def bind_metadata(self):
         from datetime import date

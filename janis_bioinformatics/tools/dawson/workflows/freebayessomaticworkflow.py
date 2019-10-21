@@ -89,25 +89,28 @@ class FreeBayesSomaticWorkflow(BioinformaticsWorkflow):
 
         self.step(
             "combine",
-            BcfToolsConcatLatest(file=self.callVariants.out, allowOverLaps=True),
+            BcfToolsConcatLatest(vcf=self.callVariants.out, allowOverLaps=True),
         )
 
-        self.step("sort_all", BcfToolsSortLatest(file=self.combine.out))
+        self.step("sort_all", BcfToolsSortLatest(vcf=self.combine.out))
 
-        self.step("compress", BGZipLatest(file=self.sort_all.out))
+        # self.step("compress_all", BGZipLatest(file=self.sort_all.out))
 
-        self.step("index_all", TabixLatest(file=self.compress_all.out))
+        self.step("index_all", TabixLatest(file=self.sort_all.out))
 
         self.step(
             "callSomatic",
             CallSomaticFreeBayes_0_1(
                 vcf=self.index_all.out,
                 normalSampleName=self.normalSample,
-                outFileName=self.normalSample + "somatic_calls.vcf",
+                outputFilename=self.normalSample,
             ),
         )
 
-        self.step("normalization_first", BcfToolsNormLatest(file=self.callSomatic.out))
+        self.step(
+            "normalization_first",
+            BcfToolsNormLatest(vcf=self.callSomatic.out, reference=self.reference),
+        )
 
         self.step(
             "split_allelic_primitves",
@@ -120,17 +123,18 @@ class FreeBayesSomaticWorkflow(BioinformaticsWorkflow):
             "fix_split_lines", VcfFixUpLatest(vcf=self.split_allelic_primitves.out)
         )
 
-        self.step("sort_somatic", BcfToolsSortLatest(file=self.fix_split_lines.out))
+        self.step("sort_somatic", BcfToolsSortLatest(vcf=self.fix_split_lines.out))
 
         self.step(
-            "normalization_second", BcfToolsNormLatest(file=self.sort_somatic.out)
+            "normalization_second",
+            BcfToolsNormLatest(vcf=self.sort_somatic.out, reference=self.reference),
         )
 
         self.step(
             "unique_alleles", VcfUniqAllelesLatest(vcf=self.normalization_second.out)
         )
 
-        self.step("sort_final", BcfToolsSortLatest(file=self.unique_alleles.out))
+        self.step("sort_final", BcfToolsSortLatest(vcf=self.unique_alleles.out))
 
         self.step("unique", VcfUniqLatest(vcf=self.sort_final.out))
 

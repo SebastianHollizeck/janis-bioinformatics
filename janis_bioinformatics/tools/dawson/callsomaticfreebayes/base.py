@@ -15,6 +15,7 @@ from janis_core import (
     ToolMetadata,
     ToolOutput,
     get_value_for_hints_and_ordered_resource_tuple,
+    InputSelector,
 )
 from janis_unix import TextFile
 
@@ -114,9 +115,7 @@ class CallSomaticFreeBayesBase(BioinformaticsTool, ABC):
         from datetime import date
 
         return ToolMetadata(
-            creator="Sebastian Hollizeck",
-            maintainer="Sebastian Hollizeck",
-            maintainerEmail="sebastian.hollizeck@petermac.org",
+            contributors=["Sebastian Hollizeck"],
             dateCreated=date(2019, 10, 19),
             dateUpdated=date(2019, 10, 19),
             institution="PMCC",

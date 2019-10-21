@@ -133,7 +133,7 @@ class FreeBayesBase(BioinformaticsTool):
             ToolInput(
                 tag="outputFilename",
                 prefix="-v",
-                input_type=Vcf(),
+                input_type=Filename(suffix=".vcf"),
                 doc="FILE Output VCF-format results to FILE. (default: stdout)",
             ),
             ToolInput(
@@ -304,7 +304,7 @@ class FreeBayesBase(BioinformaticsTool):
             ToolInput(
                 tag="useDupFlag",
                 prefix="-4",
-                input_type=Boolean(),
+                input_type=Boolean(optional=True),
                 default=False,
                 doc="Include duplicate-marked alignments in the analysis. default: exclude duplicates marked as such in alignments",
             ),
@@ -318,21 +318,21 @@ class FreeBayesBase(BioinformaticsTool):
             ToolInput(
                 tag="minBaseQual",
                 prefix="-q",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=0,
                 doc=" -q --min-base-quality Q Exclude alleles from analysis if their supporting base quality is less than Q. default: 0",
             ),
             ToolInput(
                 tag="minSupQsum",
                 prefix="-R",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=0,
                 doc=" -R --min-supporting-allele-qsum Q Consider any allele in which the sum of qualities of supporting observations is at least Q. default: 0",
             ),
             ToolInput(
                 tag="minSupMQsum",
                 prefix="-Y",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=0,
                 doc=" -Y --min-supporting-mapping-qsum Q Consider any allele in which and the sum of mapping qualities of supporting reads is at least Q. default: 0",
             ),
@@ -391,7 +391,7 @@ class FreeBayesBase(BioinformaticsTool):
             ToolInput(
                 tag="minAltQSum",
                 prefix="-3",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=0,
                 doc=" -3 --min-alternate-qsum N Require at least this sum of quality of observations supporting an alternate allele within a single individual in order to evaluate the position. default: 0",
             ),
@@ -405,7 +405,7 @@ class FreeBayesBase(BioinformaticsTool):
             ToolInput(
                 tag="minCov",
                 prefix="--min-coverage",
-                input_type=Int(),
+                input_type=Int(optional=True),
                 default=0,
                 doc=" --min-coverage N Require at least this coverage to process a site. default: 0",
             ),
@@ -537,7 +537,14 @@ class FreeBayesBase(BioinformaticsTool):
         ]
 
     def outputs(self):
-        return [ToolOutput("out", Stdout(Vcf), doc="VCF output")]
+        return [
+            ToolOutput(
+                "out",
+                Vcf,
+                glob=InputSelector("outputFilename"),
+                doc="To determine type",
+            )
+        ]
 
     def cpus(self, hints: Dict[str, Any]):
         val = get_value_for_hints_and_ordered_resource_tuple(hints, CORES_TUPLE)
