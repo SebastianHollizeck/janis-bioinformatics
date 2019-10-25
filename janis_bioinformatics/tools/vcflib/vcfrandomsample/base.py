@@ -1,5 +1,6 @@
 from abc import ABC
 
+<<<<<<< HEAD
 from janis_core import (
     ToolInput,
     String,
@@ -16,6 +17,12 @@ from janis_core import (
 )
 from janis_bioinformatics.data_types import FastaWithDict, CompressedVcf, Vcf
 
+=======
+from janis_core import ToolInput, String, Int, ToolOutput, Float, Stdout, ToolMetadata
+
+from janis_bioinformatics.data_types import CompressedVcf
+from janis_bioinformatics.data_types import Vcf
+>>>>>>> upstream/master
 from janis_bioinformatics.tools.vcflib.vcflibtoolbase import VcfToolsToolBase
 
 
